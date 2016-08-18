@@ -5,9 +5,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/bubuabu/swagger-coverage"
-  },  "main": "index.js",
+  },
+  "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "start": "babel-node index.js",
+    "pretest": "eslint index.js src test && standard index.js src test",
+    "test": "echo TODO"
   },
   "keywords": [
     "swagger",
@@ -16,5 +19,26 @@
   ],
   "engine": "node >= 6.3.0",
   "author": "Vivien HENRIET",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-node6": "^11.0.0",
+    "eslint": "^3.3.1",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-plugin-import": "^1.13.0",
+    "standard": "^7.1.2"
+  },
+  "dependencies": {
+    "http-proxy": "^1.14.0",
+    "lodash": "^4.15.0",
+    "path-to-regexp": "^1.5.3",
+    "request-promise": "^4.1.1"
+  },
+  "babel": {
+    "presets": [
+      "node6"
+    ],
+    "sourceMaps": "inline",
+    "retainLines": true
+  }
 }
