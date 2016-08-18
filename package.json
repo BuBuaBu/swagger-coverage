@@ -1,0 +1,20 @@
+{
+  "name": "swagger-coverage",
+  "version": "0.1.0",
+  "description": "Proxy HTTP server able to generate a coverage report based on a swagger description",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bubuabu/swagger-coverage"
+  },  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "swagger",
+    "coverage",
+    "proxy"
+  ],
+  "engine": "node >= 6.3.0",
+  "author": "Vivien HENRIET",
+  "license": "MIT"
+}
