@@ -1,12 +1,19 @@
 import _ from 'lodash'
 import pathToRegexp from 'path-to-regexp'
-
+import querystring from 'querystring';
+import url from 'url'
 
 function getRoute (routes, hit) {
   return routes.find((route) => {
     if (route.method === hit.method && route.statusCode === hit.statusCode) {
-      if (route.re) {
-        return route.re.exec(hit.url) !== null
+      if (route.re && route.re.exec(hit.path) !== null) {
+        let match = true
+        console.log(hit.queryParams, route.params)
+        _.forEach(hit.queryParams, (value, name) => {
+          console.log(name, route.params)
+          match &= route.params.has(name)
+        })
+        return match && Object.keys(hit.queryParams.length === route.params.length)
       }
       return route.path === hit.url
     }
@@ -30,9 +37,16 @@ export default function reporter (config, report) {
   const routes = []
   _.forEach(config.swagger.paths, (methods, path) => {
     _.forEach(methods, (methodDescription, method) => {
+      const params = new Set();
+      for (const parameter of methodDescription.parameters || []) {
+        if (parameter.in === 'query') {
+          params.add(parameter.name)
+        }
+      }
       _.forEach(methodDescription.responses, (x, statusCode) => {
         const normalizedPath = `${config.basePath}${normalizePath(path)}`
         routes.push({
+          params,
           statusCode: Number.parseInt(statusCode, 10),
           path: normalizedPath,
           re: pathToRegexp(normalizedPath, []),
@@ -66,6 +80,13 @@ export default function reporter (config, report) {
   })
 
   report.hits.forEach((hit) => {
+    const hitUrl = url.parse(hit.url)
+    hit.path = hitUrl.pathname
+    if (hitUrl.query) {
+      hit.queryParams = querystring.parse(hitUrl.query)
+    } else {
+      hit.queryParams = {}
+    }
     let route = getRoute(routes, hit)
     if (route) {
       route.hits += 1
@@ -85,7 +106,9 @@ export default function reporter (config, report) {
   })
 
   routes.forEach((route) => {
-    console.log(`${route.method} ${route.path} (${route.statusCode}): ${route.hits}`)
+    if (route.hits > 0) {
+      console.log(`${route.method} ${route.path} (${route.statusCode}): ${route.hits}`)
+    }
   })
   console.log('Not Matched')
   report.notMatched.forEach((route) => {
