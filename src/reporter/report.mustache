@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/bootstrap/css/bootstrap-theme.min.css">
+    <script src="./static/jquery.min.js"></script>
+    <script src="./static/bootstrap/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .pointer-click {
+            cursor: pointer;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .blue-flower {
+            color: #40e0d0;
+        }
+
+        .yellow-flower {
+            color: #eedd44;
+        }
+
+        .path-coverage {
+            float: right;
+            width: 40%
+        }
+
+        .overall-coverage {
+            width: 75%;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<header class="text-center jumbotron">
+    <h1>
+        <span class="blue-flower">&#x1F337;</span> Swagger coverage <span class="yellow-flower">&#x1F339;</span>
+    </h1>
+    <div class="progress overall-coverage">
+        <div class="progress-bar progress-bar-success" style="width: {{success}}%">{{success}}%</div>
+        <div class="progress-bar progress-bar-danger" style="width: {{danger}}%"><span
+                class="sr-only">{{danger}}% Complete (danger)</span></div>
+    </div>
+</header>
+<div class="container">
+    <div class="btn-group" data-toggle="buttons-checkbox">
+        <button type="button" class="btn btn-xs btn-success active" role="button" data-toggle="collapse"
+                data-target=".green-line">Called
+        </button>
+        <button type="button" class="btn btn-xs btn-danger active" data-toggle="collapse" data-target=".red-line">Not
+            called
+        </button>
+    </div>
+    {{#eachInMap values}}
+        <div>
+            <div class="page-header">
+                <h3><a data-toggle="collapse" data-target="#{{id}}" class="pointer-click">{{key}}</a>
+                    <div class="progress path-coverage">
+                        <div class="progress-bar progress-bar-success"
+                             style="width: {{value.success}}%">{{value.success}}%
+                        </div>
+                        <div class="progress-bar progress-bar-danger" style="width: {{value.danger}}%"><span
+                                class="sr-only">{{value.danger}}% Complete (danger)</span></div>
+                    </div>
+                </h3>
+            </div>
+            <div id="{{id}}" class="panel-collapse collapse">
+                {{#eachInMap value.values}}
+                    <div>
+                        <h4>{{key}}</h4>
+                        <table class="table table-striped">
+                            {{#eachInMap value}}
+                                {{#if value.hits}}
+                                <tr class="green-line collapse in">
+                                <td><span class="green">✔</span>
+                                {{else}}
+                                <tr class="red-line collapse in">
+                                <td><span class="red">✘</span>
+                                {{/if}}
+                                <strong>{{value.statusCode}}</strong> {{value.description}}</td>
+                                <td>{{value.hits}}</td></tr>
+                            {{/eachInMap}}
+                        </table>
+                    </div>
+                {{/eachInMap}}
+            </div>
+        </div>
+    {{/eachInMap}}
+</div>
+
+</body>
+</html>

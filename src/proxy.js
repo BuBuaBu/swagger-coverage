@@ -8,11 +8,7 @@ export default function proxy (config, report) {
   }
 
   proxyServer.on('proxyRes', (proxyRes, req, res) => {
-    report.hits.push({
-      method: req.method,
-      url: req.url,
-      statusCode: proxyRes.statusCode
-    })
+    report.hit(req.method, req.url, proxyRes.statusCode)
   })
 
   return http.createServer((req, res) => {

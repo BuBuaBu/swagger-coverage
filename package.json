@@ -8,9 +8,13 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
+    "build": "babel src -d dist --copy-files",
     "pretest": "eslint index.js src test && standard index.js src test",
-    "test": "echo TODO"
+    "test": "echo TODO",
+    "prepublish": "npm run build"
+  },
+  "bin": {
+    "swagcov": "bin/swagcov"
   },
   "keywords": [
     "swagger",
@@ -29,10 +33,15 @@
     "standard": "^7.1.2"
   },
   "dependencies": {
+    "handlebars": "^4.0.5",
+    "html-inline": "^1.2.0",
     "http-proxy": "^1.14.0",
+    "js-yaml": "^3.6.1",
     "lodash": "^4.15.0",
     "path-to-regexp": "^1.5.3",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "shortid": "^2.2.6",
+    "stream-buffers": "^3.0.1"
   },
   "babel": {
     "presets": [
