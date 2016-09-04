@@ -4,7 +4,7 @@
   "description": "Proxy HTTP server able to generate a coverage report based on a swagger description",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bubuabu/swagger-coverage"
+    "url": "https://github.com/BuBuaBu/swagger-coverage.git"
   },
   "main": "index.js",
   "scripts": {
