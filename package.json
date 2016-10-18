@@ -1,6 +1,6 @@
 {
   "name": "swagger-coverage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Proxy HTTP server able to generate a coverage report based on a swagger description",
   "repository": {
     "type": "git",
