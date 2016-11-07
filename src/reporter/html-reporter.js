@@ -35,7 +35,7 @@ export default function write (config, report) {
     sb.stop()
     sb.pipe(tr)
 
-    reportFile.on('end', () => {
+    reportFile.on('close', () => {
       console.log('Report saved to', output)
       resolve()
     })
